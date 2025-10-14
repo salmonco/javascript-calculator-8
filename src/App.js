@@ -61,7 +61,6 @@ export const isValidInput = (text) => {
   return !Number.isNaN(Number(replacedText));
 };
 
-// - Error를 발생시킨 후 애플리케이션은 종료
 // - 문자열이 허용된 구분자로 이루어져 있는지 판단
 // - "//"와 "\n" 사이에는 하나의 문자가 들어와야 한다. 아무것도 안 들어오거나 2개 이상의 문자가 들어오면 에러 발생
 
