@@ -1,5 +1,5 @@
-import App from "../src/App.js";
 import { MissionUtils } from "@woowacourse/mission-utils";
+import App, { splitByDelimiters } from "../src/App.js";
 
 const mockQuestions = (inputs) => {
   MissionUtils.Console.readLineAsync = jest.fn();
@@ -39,5 +39,15 @@ describe("문자열 계산기", () => {
     const app = new App();
 
     await expect(app.run()).rejects.toThrow("[ERROR]");
+  });
+
+  test("구분자를 기준으로 분리", () => {
+    expect(splitByDelimiters("1,2:3", [",", ":"])).toEqual(["1", "2", "3"]);
+    expect(splitByDelimiters("1;2,3:4", [",", ":", ";"])).toEqual([
+      "1",
+      "2",
+      "3",
+      "4",
+    ]);
   });
 });

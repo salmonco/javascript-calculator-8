@@ -9,6 +9,11 @@ const printIntro = () => {
 const DEFAULT_DELIMITERS = [",", ":"];
 
 // - 구분자를 기준으로 분리
+export const splitByDelimiters = (text, delimiters) => {
+  const regex = new RegExp(delimiters.join("|"));
+  return text.split(regex);
+};
+
 // - 각 숫자를 더하기
 // - "//"와 "\n" 사이에 위치하는 문자 파싱
 // - 커스텀 구분자를 등록
