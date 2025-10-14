@@ -1,9 +1,4 @@
-import { Console } from "@woowacourse/mission-utils";
-
-// - "덧셈할 문자열을 입력해 주세요." 메시지 출력
-const printIntro = () => {
-  Console.print("덧셈할 문자열을 입력해 주세요.");
-};
+import { MissionUtils } from "@woowacourse/mission-utils";
 
 // - 쉼표(,) 또는 콜론(:)을 구분자로 등록
 const DEFAULT_DELIMITERS = [",", ":"];
@@ -17,7 +12,7 @@ export const splitByDelimiters = (text, delimiters) => {
 // - 각 숫자를 더하기
 const sum = (numbers) => numbers.reduce((acc, cur) => acc + cur, 0);
 
-const CUSTOM_DELIMITER_PATTERN = /^\/\/(.)\n/;
+const CUSTOM_DELIMITER_PATTERN = /^\/\/(.)\\n/;
 
 // - "[ERROR]"로 시작하는 메시지 출력
 const throwError = (message) => {
@@ -65,11 +60,36 @@ export const isValidInput = (text) => {
   return isValidText(text, DEFAULT_DELIMITERS);
 };
 
-// - "//"와 "\n" 사이에는 하나의 문자가 들어와야 한다. 아무것도 안 들어오거나 2개 이상의 문자가 들어오면 에러 발생
+const getNumbers = (input) => {
+  let numbers;
+  if (isCustomDelimiterFormat(input)) {
+    const customDelimiter = parseCustomDelimiter(input);
+    const allDelimiters = getAllDelimiters(DEFAULT_DELIMITERS, customDelimiter);
+    numbers = splitByDelimiters(
+      input.replace(CUSTOM_DELIMITER_PATTERN, ""),
+      allDelimiters
+    );
+  } else {
+    numbers = splitByDelimiters(input, DEFAULT_DELIMITERS);
+  }
+
+  return numbers.map(Number);
+};
 
 class App {
   async run() {
-    printIntro();
+    // NOTE: 커스텀 구분자를 입력하기 위해 \n을 입력하면 이스케이프 처리되어 \\n로 바뀜
+    const input = await MissionUtils.Console.readLineAsync(
+      "덧셈할 문자열을 입력해 주세요.\n"
+    );
+
+    if (!isValidInput(input)) {
+      throwError("입력 값이 올바르지 않습니다.");
+    }
+
+    const numbers = getNumbers(input);
+    const result = sum(numbers);
+    MissionUtils.Console.print(`결과 : ${result}`);
   }
 }
 
