@@ -19,13 +19,18 @@ const sum = (numbers) => numbers.reduce((acc, cur) => acc + cur, 0);
 
 const CUSTOM_DELIMITER_PATTERN = /^\/\/(.)\n/;
 
+// - "[ERROR]"로 시작하는 메시지 출력
+const throwError = (message) => {
+  throw new Error(`[ERROR] ${message}`);
+};
+
 // - "//"와 "\n" 사이에 위치하는 문자 파싱
 export const parseCustomDelimiter = (text) => {
   const match = text.match(CUSTOM_DELIMITER_PATTERN);
   if (match) {
     return match[1];
   }
-  throw new Error("[ERROR] 커스텀 구분자 형식이 올바르지 않습니다.");
+  throwError("커스텀 구분자 형식이 올바르지 않습니다.");
 };
 
 // - 커스텀 구분자를 등록
@@ -56,7 +61,6 @@ export const isValidInput = (text) => {
   return !Number.isNaN(Number(replacedText));
 };
 
-// - "[ERROR]"로 시작하는 메시지 출력
 // - Error를 발생시킨 후 애플리케이션은 종료
 // - 문자열이 허용된 구분자로 이루어져 있는지 판단
 // - "//"와 "\n" 사이에는 하나의 문자가 들어와야 한다. 아무것도 안 들어오거나 2개 이상의 문자가 들어오면 에러 발생
