@@ -60,6 +60,8 @@ export const isValidInput = (text) => {
   return isValidText(text, DEFAULT_DELIMITERS);
 };
 
+const isNegativeNumber = (numbers) => numbers.some((number) => number < 0);
+
 const getNumbers = (input) => {
   let numbers;
   if (isCustomDelimiterFormat(input)) {
@@ -88,6 +90,11 @@ class App {
     }
 
     const numbers = getNumbers(input);
+
+    if (isNegativeNumber(numbers)) {
+      throwError("음수는 허용하지 않습니다.");
+    }
+
     const result = sum(numbers);
     MissionUtils.Console.print(`결과 : ${result}`);
   }
