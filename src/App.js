@@ -45,23 +45,26 @@ export const replaceTextByDelimiters = (text, delimiters) =>
 export const isCustomDelimiterFormat = (text) =>
   CUSTOM_DELIMITER_PATTERN.test(text);
 
+// - 문자열이 허용된 구분자로 이루어져 있는지 판단
+const isValidText = (text, delimiters) => {
+  const replacedText = replaceTextByDelimiters(text, delimiters);
+  return !Number.isNaN(Number(replacedText));
+};
+
 // - 사용자가 잘못된 값을 입력했는지 여부 판단
 export const isValidInput = (text) => {
   if (isCustomDelimiterFormat(text)) {
     const customDelimiter = parseCustomDelimiter(text);
     const allDelimiters = getAllDelimiters(DEFAULT_DELIMITERS, customDelimiter);
-    const replacedText = replaceTextByDelimiters(
+    return isValidText(
       text.replace(CUSTOM_DELIMITER_PATTERN, ""),
       allDelimiters
     );
-    return !Number.isNaN(Number(replacedText));
   }
 
-  const replacedText = replaceTextByDelimiters(text, DEFAULT_DELIMITERS);
-  return !Number.isNaN(Number(replacedText));
+  return isValidText(text, DEFAULT_DELIMITERS);
 };
 
-// - 문자열이 허용된 구분자로 이루어져 있는지 판단
 // - "//"와 "\n" 사이에는 하나의 문자가 들어와야 한다. 아무것도 안 들어오거나 2개 이상의 문자가 들어오면 에러 발생
 
 class App {
