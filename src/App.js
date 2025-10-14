@@ -28,6 +28,10 @@ export const parseCustomDelimiter = (text) => {
 };
 
 // - 커스텀 구분자를 등록
+const addDelimiter = (originalDelimiters, customDelimiter) => {
+  originalDelimiters.push(customDelimiter);
+};
+
 // - 사용자가 잘못된 값을 입력했는지 여부 판단
 // - "[ERROR]"로 시작하는 메시지 출력
 // - Error를 발생시킨 후 애플리케이션은 종료
