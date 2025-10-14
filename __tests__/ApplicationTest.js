@@ -1,5 +1,5 @@
 import { MissionUtils } from "@woowacourse/mission-utils";
-import App, { splitByDelimiters } from "../src/App.js";
+import App, { parseCustomDelimiter, splitByDelimiters } from "../src/App.js";
 
 const mockQuestions = (inputs) => {
   MissionUtils.Console.readLineAsync = jest.fn();
@@ -49,5 +49,13 @@ describe("문자열 계산기", () => {
       "3",
       "4",
     ]);
+  });
+
+  test(`"//"와 "\n" 사이에 위치하는 문자 파싱`, () => {
+    expect(parseCustomDelimiter("//v\n1,2;3")).toBe("v");
+    expect(parseCustomDelimiter("//6abc\n1,2;3")).toBe("6abc");
+    expect(() => parseCustomDelimiter("//\n1,2;3")).toThrow(
+      "[ERROR] 커스텀 구분자 형식이 올바르지 않습니다."
+    );
   });
 });

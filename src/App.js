@@ -18,6 +18,15 @@ export const splitByDelimiters = (text, delimiters) => {
 const sum = (numbers) => numbers.reduce((acc, cur) => acc + cur, 0);
 
 // - "//"와 "\n" 사이에 위치하는 문자 파싱
+export const parseCustomDelimiter = (text) => {
+  const customDelimiterPattern = /^\/\/(.+)\n/;
+  const match = text.match(customDelimiterPattern);
+  if (match) {
+    return match[1];
+  }
+  throw new Error("[ERROR] 커스텀 구분자 형식이 올바르지 않습니다.");
+};
+
 // - 커스텀 구분자를 등록
 // - 사용자가 잘못된 값을 입력했는지 여부 판단
 // - "[ERROR]"로 시작하는 메시지 출력
