@@ -15,6 +15,8 @@ export const splitByDelimiters = (text, delimiters) => {
 };
 
 // - 각 숫자를 더하기
+const sum = (numbers) => numbers.reduce((acc, cur) => acc + cur, 0);
+
 // - "//"와 "\n" 사이에 위치하는 문자 파싱
 // - 커스텀 구분자를 등록
 // - 사용자가 잘못된 값을 입력했는지 여부 판단
